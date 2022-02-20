@@ -48,6 +48,7 @@ tunnel-nodejs on  master [!?] is 📦 v1.0.0 via  v16.14.0 on ☁️  (ap-
 ❯
 ```
 ## Run
+Prepare config file (the config file is JS file). See config.js.example. Then run command below.
 ```
 ❯ ./dtunnel-macos ./config.js
 ```
