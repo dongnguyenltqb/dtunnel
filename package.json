@@ -1,0 +1,29 @@
+{
+  "name": "dtunnel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "bin": {
+    "path": "index.js"
+  },
+  "pkg": {
+    "scripts": [
+      "*.js"
+    ],
+    "assets": [],
+    "outputPath": "",
+    "targets": [
+      "latest-macos",
+      "latest-linux-x64"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

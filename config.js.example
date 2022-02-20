@@ -1,0 +1,22 @@
+module.exports = [
+  {
+    host: "host.server.example",
+    port: 22,
+    user: "ubuntu",
+    private_key: "your private key content.",
+    targets: [
+      {
+        forwarding: "local",
+        local_port: 34569,
+        remote_port: 80,
+        addr: "example.com",
+      },
+      {
+        forwarding: "remote",
+        local_port: 34568,
+        remote_port: 34568,
+        addr: "localhost",
+      },
+    ],
+  },
+];
