@@ -17,8 +17,8 @@
     "assets": [],
     "outputPath": "",
     "targets": [
-      "latest-macos",
-      "latest-linux-x64"
+      "node16-macos",
+      "node16-linux-x64"
     ]
   },
   "author": "",
