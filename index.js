@@ -25,6 +25,7 @@ function getConfigFile() {
   console.log(`list config to check:`, config_paths);
   for (let config_path of config_paths) {
     if (getFileStat(config_path)) {
+      console.log(`use config file: ${config_path}`);
       return require(config_path);
     }
   }
@@ -99,6 +100,10 @@ function Job(command) {
 async function start() {
   prepare();
   let config = getConfigFile();
+  if (!Array.isArray(config)) {
+    console.log("invalid config file");
+    process.exit(1);
+  }
   let commands = config.map((server) => buildCommand(server));
   for (let command of commands) {
     let job = new Job(command);
