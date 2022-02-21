@@ -1,7 +1,14 @@
 const path = require("path");
 const fs = require("fs");
 const { spawn } = require("child_process");
+const Ajv = require("ajv").default;
+const ajv = new Ajv({
+  useDefaults: true,
+  coerceTypes: true,
+});
+
 const tmp_path = path.join(process.env.HOME, "./tunnel-nodejs");
+const configSchema = require("./config.schema");
 
 function getFileStat(file_path) {
   try {
@@ -97,13 +104,20 @@ function Job(command) {
   };
 }
 
+function validateConfig(config) {
+  const validate = ajv.compile(configSchema.schema);
+  const valid = validate(config);
+  if (!valid) {
+    console.log("invalid config file found:");
+    console.log(validate.errors);
+    process.exit(1);
+  }
+}
+
 async function start() {
   prepare();
   let config = getConfigFile();
-  if (!Array.isArray(config)) {
-    console.log("invalid config file");
-    process.exit(1);
-  }
+  validateConfig(config);
   let commands = config.map((server) => buildCommand(server));
   for (let command of commands) {
     let job = new Job(command);
