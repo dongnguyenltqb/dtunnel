@@ -12,7 +12,6 @@ $ pkg .
 
   fetched-v16.13.2-linux-x64          [====================] 100%
 
-tunnel-nodejs on  master 
 $ ll
 total 184840
 -rw-r--r--    1 dong  staff   2.0K Feb 20 20:14 config.js
