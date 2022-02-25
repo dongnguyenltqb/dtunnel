@@ -11,6 +11,7 @@ module.exports = {
         port: {
           type: "integer",
           minimum: 1,
+          default: 22,
         },
         user: {
           type: "string",

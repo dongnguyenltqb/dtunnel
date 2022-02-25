@@ -68,7 +68,10 @@ function buildCommand(server) {
       .join(" ")} ${user}@${host} -p ${port}`
       .split(" ")
       .filter((x) => x !== " " && x !== "");
-  return ["ssh", argv];
+  return {
+    id: `[${user}@${host}:${port}]`,
+    command: ["ssh", argv],
+  };
 }
 
 function prepare() {
@@ -79,26 +82,28 @@ function prepare() {
 }
 
 function run() {
-  console.log("argv", this.command[1]);
-  this.proc = spawn(this.command[0], this.command[1]);
+  const { command, id } = this;
+  this.proc = spawn(command[0], command[1]);
   this.proc.stdout.on("data", (data) => {
-    console.log(data.toString());
+    console.log(id, data.toString());
   });
   this.proc.stderr.on("data", (data) => {
-    console.log(data.toString());
+    console.log(id, data.toString());
   });
   this.proc.on("error", (err) => {
-    console.log(err);
+    console.log(id, err);
   });
   this.proc.on("exit", () => {
     setTimeout(() => {
-      this.run(this.command);
+      this.run(command);
     }, 2000);
   });
 }
 
-function Job(command) {
-  this.command = command;
+function Job(build) {
+  console.log(build.command);
+  this.command = build.command;
+  this.id = build.id;
   this.run = run;
   this.kill = function () {
     this.proc.kill();
@@ -119,9 +124,9 @@ async function start() {
   prepare();
   let config = getConfigFile();
   validateConfig(config);
-  let commands = config.map((server) => buildCommand(server));
-  for (let command of commands) {
-    let job = new Job(command);
+  let builds = config.map((server) => buildCommand(server));
+  for (let build of builds) {
+    let job = new Job(build);
     job.run();
   }
 }
